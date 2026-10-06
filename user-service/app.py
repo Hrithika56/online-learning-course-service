@@ -1,3 +1,6 @@
+import os
+from dotenv import load_dotenv
+
 from flask import Flask, request, jsonify
 from flask_jwt_extended import (
     JWTManager,
@@ -10,7 +13,7 @@ from database import db
 from models import User
 from auth import hash_password, verify_password
 
-
+load_dotenv()
 # ==========================================
 # CREATE FLASK APPLICATION
 # ==========================================
@@ -30,7 +33,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # JWT CONFIGURATION
 # ==========================================
 
-app.config["JWT_SECRET_KEY"] = "team10-user-service-secret"
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 
 
 # Initialize database and JWT
