@@ -245,7 +245,6 @@ def update_user(user_id):
 
     current_user_id = get_jwt_identity()
 
-    # User can only update their own account
     if int(current_user_id) != user_id:
         return jsonify({
             "error": "You can only update your own account"
@@ -258,11 +257,9 @@ def update_user(user_id):
             "error": "Request body is required"
         }), 400
 
-    # Update name
     if "name" in data:
         user.name = data["name"]
 
-    # Update email
     if "email" in data:
 
         existing_user = User.query.filter_by(
@@ -276,7 +273,6 @@ def update_user(user_id):
 
         user.email = data["email"]
 
-    # Update password
     if "password" in data:
 
         user.password = hash_password(
@@ -308,7 +304,6 @@ def delete_user(user_id):
 
     current_user_id = get_jwt_identity()
 
-    # User can only delete their own account
     if int(current_user_id) != user_id:
         return jsonify({
             "error": "You can only delete your own account"
