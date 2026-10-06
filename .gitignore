@@ -1,15 +1,23 @@
 # Python virtual environments
 venv/
+*/venv/
 .venv/
-course-service/venv/
-enrollment-service/venv/
 
 # Python cache
 __pycache__/
+*/__pycache__/
 *.pyc
+*.pyo
 
 # SQLite databases
 *.db
+*.sqlite
+*.sqlite3
 
-# Environment variables
+# Environment files
 .env
+*.env
+
+# IDE files
+.vscode/
+.idea/
