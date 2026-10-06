@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OLMS - User Authentication</title>
+    <link rel="stylesheet" href="/web/style.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Online Learning Management System</h1>
+        <p class="subtitle">User Authentication</p>
+
+        <!-- REGISTER -->
+        <section>
+            <h2>Register</h2>
+
+            <input type="text" id="registerName" placeholder="Name">
+            <input type="email" id="registerEmail" placeholder="Email">
+            <input type="password" id="registerPassword" placeholder="Password">
+
+            <button onclick="registerUser()">Register</button>
+        </section>
+
+
+        <!-- LOGIN -->
+        <section>
+            <h2>Login</h2>
+
+            <input type="email" id="loginEmail" placeholder="Email">
+            <input type="password" id="loginPassword" placeholder="Password">
+
+            <button onclick="loginUser()">Login</button>
+        </section>
+
+
+        <!-- PROFILE -->
+        <section>
+            <h2>My Profile</h2>
+
+            <button onclick="getProfile()">Get My Profile</button>
+            <button onclick="logout()">Logout</button>
+
+            <div id="profile"></div>
+        </section>
+
+
+        <div id="message"></div>
+
+    </div>
+
+    <script src="/web/script.js"></script>
+
+</body>
+</html>

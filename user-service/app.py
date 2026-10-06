@@ -1,7 +1,9 @@
 import os
+
 from dotenv import load_dotenv
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
+
 from flask_jwt_extended import (
     JWTManager,
     create_access_token,
@@ -29,6 +31,32 @@ app = Flask(__name__)
 
 
 # ==========================================
+# FRONTEND
+# ==========================================
+
+FRONTEND_FOLDER = os.path.join(
+    app.root_path,
+    "frontend"
+)
+
+
+@app.route("/web")
+def web():
+    return send_from_directory(
+        FRONTEND_FOLDER,
+        "index.html"
+    )
+
+
+@app.route("/web/<path:filename>")
+def web_files(filename):
+    return send_from_directory(
+        FRONTEND_FOLDER,
+        filename
+    )
+
+
+# ==========================================
 # DATABASE CONFIGURATION
 # ==========================================
 
@@ -40,11 +68,17 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # JWT CONFIGURATION
 # ==========================================
 
-app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
+app.config["JWT_SECRET_KEY"] = os.getenv(
+    "JWT_SECRET_KEY"
+)
 
 
-# Initialize database and JWT
+# ==========================================
+# INITIALIZE DATABASE AND JWT
+# ==========================================
+
 db.init_app(app)
+
 jwt = JWTManager(app)
 
 
