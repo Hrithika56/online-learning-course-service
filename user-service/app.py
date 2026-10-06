@@ -13,7 +13,14 @@ from database import db
 from models import User
 from auth import hash_password, verify_password
 
+
+# ==========================================
+# LOAD ENVIRONMENT VARIABLES
+# ==========================================
+
 load_dotenv()
+
+
 # ==========================================
 # CREATE FLASK APPLICATION
 # ==========================================
@@ -252,6 +259,15 @@ def update_user(user_id):
             "error": "User not found"
         }), 404
 
+    # Get logged-in user's ID from JWT
+    current_user_id = get_jwt_identity()
+
+    # User can only update their own account
+    if int(current_user_id) != user_id:
+        return jsonify({
+            "error": "You can only update your own account"
+        }), 403
+
     data = request.get_json()
 
     if not data:
@@ -299,12 +315,22 @@ def update_user(user_id):
 @app.route("/api/v1/users/<int:user_id>", methods=["DELETE"])
 @jwt_required()
 def delete_user(user_id):
+
     user = User.query.get(user_id)
 
     if not user:
         return jsonify({
             "error": "User not found"
         }), 404
+
+    # Get logged-in user's ID from JWT
+    current_user_id = get_jwt_identity()
+
+    # User can only delete their own account
+    if int(current_user_id) != user_id:
+        return jsonify({
+            "error": "You can only delete your own account"
+        }), 403
 
     db.session.delete(user)
     db.session.commit()
