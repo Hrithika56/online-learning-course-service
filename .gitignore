@@ -1,0 +1,15 @@
+# Python virtual environments
+venv/
+.venv/
+course-service/venv/
+enrollment-service/venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# SQLite databases
+*.db
+
+# Environment variables
+.env
