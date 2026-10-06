@@ -78,24 +78,20 @@ def register():
 
     data = request.get_json()
 
-    # Check request body
     if not data:
         return jsonify({
             "error": "Request body is required"
         }), 400
 
-    # Get data
     name = data.get("name")
     email = data.get("email")
     password = data.get("password")
 
-    # Validate required fields
     if not name or not email or not password:
         return jsonify({
             "error": "Name, email and password are required"
         }), 400
 
-    # Check if email already exists
     existing_user = User.query.filter_by(
         email=email
     ).first()
@@ -105,10 +101,8 @@ def register():
             "error": "Email already registered"
         }), 409
 
-    # Hash password
     hashed_password = hash_password(password)
 
-    # Create user
     user = User(
         name=name,
         email=email,
@@ -116,7 +110,6 @@ def register():
         role="student"
     )
 
-    # Save user
     db.session.add(user)
     db.session.commit()
 
@@ -135,34 +128,28 @@ def login():
 
     data = request.get_json()
 
-    # Check request body
     if not data:
         return jsonify({
             "error": "Request body is required"
         }), 400
 
-    # Get login data
     email = data.get("email")
     password = data.get("password")
 
-    # Validate fields
     if not email or not password:
         return jsonify({
             "error": "Email and password are required"
         }), 400
 
-    # Find user
     user = User.query.filter_by(
         email=email
     ).first()
 
-    # User doesn't exist
     if not user:
         return jsonify({
             "error": "Invalid email or password"
         }), 401
 
-    # Check password
     if not verify_password(
         user.password,
         password
@@ -171,7 +158,6 @@ def login():
             "error": "Invalid email or password"
         }), 401
 
-    # Create JWT token
     access_token = create_access_token(
         identity=str(user.id)
     )
@@ -225,10 +211,8 @@ def get_user(user_id):
 @jwt_required()
 def get_current_user():
 
-    # Get user ID from JWT token
     user_id = get_jwt_identity()
 
-    # Find user
     user = User.query.get(
         int(user_id)
     )
@@ -259,7 +243,6 @@ def update_user(user_id):
             "error": "User not found"
         }), 404
 
-    # Get logged-in user's ID from JWT
     current_user_id = get_jwt_identity()
 
     # User can only update their own account
@@ -323,7 +306,6 @@ def delete_user(user_id):
             "error": "User not found"
         }), 404
 
-    # Get logged-in user's ID from JWT
     current_user_id = get_jwt_identity()
 
     # User can only delete their own account
